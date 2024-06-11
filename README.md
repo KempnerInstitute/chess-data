@@ -10,7 +10,29 @@ The data processing pipeline goes in the following order:
 
 download -> uncompress -> split into chunks -> bin -> compress
 
-`download.py -> uncompress.py -> split.py -> elo_bin.py -> zstd_compress_elo_bin.py`
+download:
+```
+for y in [2021, 2022, 2023, 2024]:
+    for m in range(1, 13):
+        os.system(f'echo "wget https://database.lichess.org/standard/lichess_db_standard_rated_{y}-{m:02d}.pgn.zst"')
+```
+
+uncompress (note that this will require around 20TB and several hours):
+
+```
+for file in os.listdir('.'):
+    os.system(f"zstd -d -T0 {file}")
+```
+
+split into chunks (this is done so that our zstd_process in chess-research is able to open enough file handlers:
+
+```
+for file in os.listdir('.'):
+    if not file.endswith('zst'):
+        os.system(f"split -d -n l/32 {file} {file}.")
+```
+
+Then you can run `elo_bin.py` to bin, and `zstd_compress_elo_bin.py` to compress.
 
 
 The debug dataset can be created from the main one using the following code:
