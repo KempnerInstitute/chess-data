@@ -10,7 +10,7 @@ The data processing pipeline goes in the following order:
 
 download -> uncompress -> split into chunks -> bin -> compress
 
-download.py -> uncompress.py -> split.py -> elo_bin.py -> zstd_compress_elo_bin.py
+`download.py -> uncompress.py -> split.py -> elo_bin.py -> zstd_compress_elo_bin.py`
 
 
 The debug dataset can be created from the main one using the following code:
