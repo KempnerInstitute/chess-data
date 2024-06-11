@@ -4,7 +4,14 @@
 
 ## [Debug dataset (600MB)](https://huggingface.co/datasets/ezipe/lichess_elo_binned_debug)
 
-This repository holds the files needed to recreate the two datasets above. The debug dataset is just a smaller version of the main dataset for quickly testing new code on your local machine, whilst the main dataset is meant to be downloaded on the machine that will actually be used for training, whether that's a server, workstation, or compute cluster. The data is originally retrieved from lichess Jan. 2021 to Mar. 2024, and is then binned into different elos. Each folder `1000`, `1100`, etc. corresponds to all games between `900-1000` and `1000-1100`, respectively. The main dataset contains roughly 3.2B games. Since each game is around 400 characters or so, this very roughly corresponds to ~1.3T tokens. These numbers were done back of hand, and could certainly be made more precise.
+This repository holds the files needed to recreate the two datasets above. The debug dataset is just a smaller version of the main dataset for quickly testing new code on your local machine, whilst the main dataset is meant to be downloaded on the machine that will actually be used for training, whether that's a server, workstation, or compute cluster. The data is originally retrieved from [lichess](https://database.lichess.org/) Jan. 2021 to Mar. 2024, and is then binned into different elos. Each folder `1000`, `1100`, etc. corresponds to all games between `900-1000` and `1000-1100`, respectively. The main dataset contains roughly 3.2B games. Since each game is around 400 characters or so, this very roughly corresponds to ~1.3T tokens. These numbers were done back of hand, and could certainly be made more precise.
+
+The data processing pipeline goes in the following order:
+
+download -> uncompress -> split into chunks -> bin -> compress
+
+download.py -> uncompress.py -> split.py -> elo_bin.py -> zstd_compress_elo_bin.py
+
 
 The debug dataset can be created from the main one using the following code:
 
