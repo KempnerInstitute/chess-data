@@ -15,8 +15,7 @@ import shutil
 def copy_first_file(source_dir, target_dir):
     for root, dirs, files in os.walk(source_dir):
         if not files:
-            continue  # Skip if there are no files in the current directory
-        #if '.git' in
+            continue  # Skip if there are no files in the current directory        
 
         # Get the relative path of the current directory with respect to the source_dir
         relative_path = os.path.relpath(root, source_dir)
