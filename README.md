@@ -70,40 +70,9 @@ python zstd_compress_elo_bin.py
 ```
 
 ## Creating the Debug Dataset
-The debug dataset can be created from the main one using the following code:
 
-```python
-import os
-import shutil
+The debug dataset can be created from the main one using the script `create_debug_dataset.py`, that picks the first file for each elo bin:
 
-def copy_first_file(source_dir, target_dir):
-    for root, dirs, files in os.walk(source_dir):
-        if not files:
-            continue  # Skip if there are no files in the current directory        
-
-        # Get the relative path of the current directory with respect to the source_dir
-        relative_path = os.path.relpath(root, source_dir)
-
-        # Construct the corresponding target directory
-        target_subdir = os.path.join(target_dir, relative_path)
-
-        # Ensure the target subdirectory exists
-        os.makedirs(target_subdir, exist_ok=True)
-
-        # Copy the first file in the current directory to the target directory
-        first_file = files[0]
-        source_file_path = os.path.join(root, first_file)
-        target_file_path = os.path.join(target_subdir, first_file)
-
-        if '.git' in source_file_path:
-            continue
-
-        shutil.copy2(source_file_path, target_file_path)
-        print(f"Copied {source_file_path} to {target_file_path}")
-
-# Example usage
-source_directory = "lichess_elo_binned"
-target_directory = "lichess_elo_binned_debug"
-copy_first_file(source_directory, target_directory)
+```bash
+python create_debug_dataset.py --input_dir /path/to/the/dataset
 ```
-
