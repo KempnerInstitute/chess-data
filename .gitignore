@@ -1,0 +1,12 @@
+# Ignore package files
+*.zip
+
+# Ignore compressed files
+*.zst
+
+# Ignore cache files
+__pycache__/
+
+# Ignore extracted and generated games
+games/
+uncompressed_elo_binned_shards/

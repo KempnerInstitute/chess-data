@@ -29,6 +29,7 @@ import os
 import random
 import re
 import time
+import argparse
 
 import numpy as np
 import torch
@@ -36,6 +37,7 @@ import tqdm
 import zstandard
 from torch.utils.data import IterableDataset
 
+from constants import BIN_SAVES_DIR
 
 def process_wrapper():
     vocab = "#+-.0123456789;=BKNOQRabcdefghx "
@@ -229,16 +231,22 @@ class StreamingPGNDataset(IterableDataset):  # TODO implement train test split
 # takes around 17 minutes to cycle through a single shard
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Bin chess games by Elo rating.")
+    parser.add_argument('--input_dir', type=str, required=True, help='Directory input files')
+
+    args = parser.parse_args()
+
+    input_dir = args.input_dir
+
     ############
     # StreamingPGNDataset
     ############
-    data_dir = "/home/ezipe/part2_uncompressed_shards"
 
     # ds = StreamingPGNDataset(
     #     [
-    #         os.path.join(data_dir, "lichess_db_standard_rated_2023-01.pgn.00")
+    #         os.path.join(input_dir, "lichess_db_standard_rated_2023-01.pgn.00")
     #     ],
-    #     save_path='/home/ezipe/testing'
+    #     save_path=BIN_SAVES_DIR,
     # )
     # for k in tqdm.tqdm(ds):
     #     pass
@@ -247,24 +255,22 @@ if __name__ == "__main__":
     # StreamingBlockPGNDataset
     ############
 
-    # data_dir = '/mnt/data/lichess_2023_janoct_shards/data/'
-
+    # Number of workers should be equal or less to the number of files in the input directory
     workers = 360
+
     ds_block = torch.utils.data.DataLoader(
         StreamingPGNDataset(
-            [os.path.join(data_dir, k) for k in os.listdir(data_dir)],
-            # save_path="/home/ezipe/testing2",
-            save_path="/home/ezipe/part2_uncompressed_elo_binned_shards",
+            [os.path.join(input_dir, k) for k in os.listdir(input_dir)],
+            save_path=BIN_SAVES_DIR,
         ),
         num_workers=workers,
         batch_size=workers,
         collate_fn=lambda x: x
     )
+
     t = time.time()
-    for i in tqdm.tqdm(ds_block):
+    for _ in tqdm.tqdm(ds_block):
         pass
     end = time.time() - t
 
-    print(
-        f'Finished in {end} seconds!'
-    )
+    print(f'Finished in {end} seconds!')
