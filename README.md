@@ -50,13 +50,13 @@ python uncompress_zst.py --input_dir /path/files/to/uncompress
 This step is necessary to allow the `zstd_process` in chess-research to open enough file handlers.
 
 ```bash
-python split_in_chunks.py /path/files/to/splits
+python split_in_chunks.py --input_dir /path/files/to/splits
 ```
 
 ### 4. Bin by Elo
 
 ```bash
-python elo_bin.py 
+python elo_bin.py  --input_dir /path/files/to/bin
 ```
 
 ### 5. Compress

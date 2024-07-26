@@ -15,6 +15,6 @@ def main(input_dir):
   
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Splits .pgn files in 32 chunks.')
-    parser.add_argument('input_dir', type=str, help='Directory containing .pgn files')
+    parser.add_argument('--input_dir', type=str, required=True, help='Directory containing .pgn files')
     args = parser.parse_args()
     main(args.input_dir)
