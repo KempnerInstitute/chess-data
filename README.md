@@ -11,6 +11,7 @@ This repository holds the files needed to recreate the two datasets above. The d
 ## Data Organization
 
 Each folder (`1000`, `1100`, etc.) corresponds to games within specific Elo ranges:
+
 - `1000`: 900-1000 Elo
 - `1100`: 1000-1100 Elo
 - And so on...
@@ -25,11 +26,14 @@ Each folder (`1000`, `1100`, etc.) corresponds to games within specific Elo rang
 Note: verify the required packages in requirements.txt
 
 The data processing pipeline goes in the following order:
+
 1. Download
 2. Uncompress
 3. Split into chunks
 4. Bin by Elo
 5. Compress
+
+To run the entire Data Processing Pipeline with default arguments, use the default.sh script.
 
 ### 1. Download
 
