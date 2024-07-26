@@ -22,6 +22,8 @@ Each folder (`1000`, `1100`, etc.) corresponds to games within specific Elo rang
 
 ## Data Processing Pipeline
 
+Note: verify the required packages in requirements.txt
+
 The data processing pipeline goes in the following order:
 1. Download
 2. Uncompress
@@ -31,19 +33,16 @@ The data processing pipeline goes in the following order:
 
 ### 1. Download
 
-```python
-for y in [2021, 2022, 2023, 2024]:
-    for m in range(1, 13):
-        os.system(f'echo "wget https://database.lichess.org/standard/lichess_db_standard_rated_{y}-{m:02d}.pgn.zst"')
+```bash
+python download_lichess.py
 ```
 
 ### 2. Uncompress
 
 Note: This step requires about 20TB of free space and may take several hours.
 
-```python
-for file in os.listdir('.'):
-    os.system(f"zstd -d -T0 {file}")
+```bash
+python uncompress_zst.py --input_dir /path/files/to/uncompress
 ```
 
 ### 3. Split into chunks
